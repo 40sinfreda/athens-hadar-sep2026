@@ -1,27 +1,33 @@
 import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ItineraryApp } from "@/components/itinerary-app";
-import { LockScreen } from "@/components/lock-screen";
+import { LockPending, LockScreen } from "@/components/lock-screen";
+import { useCurrentUserState } from "@/lib/auth/use-current-user";
 import { isUnlocked } from "@/lib/passkey";
 
 export const Route = createFileRoute("/")({ component: Home });
 
 function Home() {
+  const { user, isPending } = useCurrentUserState();
   const [ready, setReady] = useState(false);
-  const [unlocked, setUnlocked] = useState(false);
+  const [finger, setFinger] = useState(false);
 
   useEffect(() => {
-    setUnlocked(isUnlocked());
+    setFinger(isUnlocked());
     setReady(true);
   }, []);
 
-  if (!ready || !unlocked) {
+  if (isPending || !ready) return <LockPending />;
+  if (user || finger) {
     return (
-      <LockScreen
-        onUnlock={() => setUnlocked(true)}
+      <ItineraryApp
+        onLock={() => setFinger(false)}
       />
     );
   }
-
-  return <ItineraryApp onLock={() => setUnlocked(false)} />;
+  return (
+    <LockScreen
+      onUnlock={() => setFinger(true)}
+    />
+  );
 }

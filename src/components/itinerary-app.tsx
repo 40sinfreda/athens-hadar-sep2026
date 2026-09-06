@@ -8,10 +8,13 @@ import { CostPanel } from "@/components/cost-panel";
 import { Button } from "@/components/ui/button";
 import { useDone } from "@/store";
 import { lockSession, registerPasskey } from "@/lib/passkey";
+import { UserButton } from "@/lib/auth/gates";
+import { useCurrentUser } from "@/lib/auth/use-current-user";
 
 export function ItineraryApp({ onLock }: { onLock: () => void }) {
   const [active, setActive] = useState(days[0]?.id ?? "d23");
   const hydrate = useDone((s) => s.hydrate);
+  const user = useCurrentUser();
 
   useEffect(() => {
     hydrate();
@@ -41,19 +44,25 @@ export function ItineraryApp({ onLock }: { onLock: () => void }) {
       <TripHero />
       <DayNav active={active} />
       <div className="mx-auto flex max-w-3xl flex-col gap-12 px-4 py-8 pb-24">
-        <div className="flex flex-wrap gap-2">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              lockSession();
-              onLock();
-            }}
-          >
-            <Lock className="size-3.5" />
-            נעילה
-          </Button>
+        <div className="flex flex-wrap items-center gap-2">
+          {user ? (
+            <div className="me-auto">
+              <UserButton />
+            </div>
+          ) : (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                lockSession();
+                onLock();
+              }}
+            >
+              <Lock className="size-3.5" />
+              נעילה
+            </Button>
+          )}
           <Button
             type="button"
             variant="outline"
@@ -63,7 +72,7 @@ export function ItineraryApp({ onLock }: { onLock: () => void }) {
             }}
           >
             <Fingerprint className="size-3.5" />
-            הוספת מכשיר
+            הוספת טביעת אצבע
           </Button>
         </div>
         <CostPanel />
