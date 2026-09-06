@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import type { Cost, DayPlan, TripMeta } from "@/data/itinerary";
 import { TripHero } from "@/components/trip-hero";
 import { DayNav } from "@/components/day-nav";
 import { DaySection } from "@/components/day-section";
 import { CostPanel } from "@/components/cost-panel";
 import { useDone } from "@/store";
-import { UserButton } from "@/lib/auth/gates";
 
 export function ItineraryApp({
   trip,
   days,
   paid,
-  showAccount = true,
+  header,
 }: {
   trip: TripMeta;
   days: DayPlan[];
   paid: Cost[];
-  showAccount?: boolean;
+  header?: ReactNode;
 }) {
   const [active, setActive] = useState(days[0]?.id ?? "d23");
   const hydrate = useDone((s) => s.hydrate);
@@ -49,13 +48,7 @@ export function ItineraryApp({
       <TripHero trip={trip} />
       <DayNav active={active} days={days} />
       <div className="mx-auto flex max-w-3xl flex-col gap-12 px-4 py-8 pb-24">
-        <div className="flex flex-wrap items-center gap-2">
-          {showAccount ? (
-            <div className="me-auto">
-              <UserButton />
-            </div>
-          ) : null}
-        </div>
+        {header}
         <CostPanel days={days} paid={paid} />
         {days.map((day) => (
           <DaySection key={day.id} day={day} />

@@ -5,6 +5,7 @@ import { DeniedScreen, LockPending, LockScreen } from "@/components/lock-screen"
 import { useCurrentUserState } from "@/lib/auth/use-current-user";
 import { isAllowedEmail } from "@/lib/allowed";
 import { loadTrip } from "@/lib/trip";
+import { UserButton } from "@/lib/auth/gates";
 import type { Cost, DayPlan, TripMeta } from "@/data/itinerary";
 
 export const Route = createFileRoute("/")({ component: Home });
@@ -41,5 +42,18 @@ function Home() {
   if (!allowed || blocked) return <DeniedScreen />;
   if (!trip) return <LockPending />;
 
-  return <ItineraryApp trip={trip.TRIP} days={trip.days} paid={trip.PAID} />;
+  return (
+    <ItineraryApp
+      trip={trip.TRIP}
+      days={trip.days}
+      paid={trip.PAID}
+      header={
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="me-auto">
+            <UserButton />
+          </div>
+        </div>
+      }
+    />
+  );
 }

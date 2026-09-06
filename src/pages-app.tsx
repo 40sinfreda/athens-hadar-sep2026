@@ -45,7 +45,7 @@ export function PagesApp() {
 
   if (open) {
     return (
-      <ItineraryApp trip={TRIP} days={days} paid={PAID} showAccount={false} />
+      <ItineraryApp trip={TRIP} days={days} paid={PAID} />
     );
   }
 
