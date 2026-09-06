@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Heebo", "Segoe UI", system-ui, sans-serif;
-  --font-display: "Frank Ruhl Libre", "Heebo", serif;
+  --font-sans: Arial, "Arial Hebrew", "Segoe UI", sans-serif;
+  --font-display: Arial, "Arial Hebrew", "Segoe UI", sans-serif;
 
   --color-bg: #f3eee6;
   --color-fg: #1b1814;
@@ -32,16 +32,24 @@
   html {
     background: var(--color-bg);
     color: var(--color-fg);
+    font-family: Arial, "Arial Hebrew", "Segoe UI", sans-serif;
   }
 
   body {
     margin: 0;
     min-height: 100dvh;
-    font-family: var(--font-sans);
+    font-family: Arial, "Arial Hebrew", "Segoe UI", sans-serif;
     background: var(--color-bg);
     color: var(--color-fg);
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
+  }
+
+  button,
+  input,
+  textarea,
+  select {
+    font-family: inherit;
   }
 
   button:not(:disabled),

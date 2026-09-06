@@ -1,7 +1,7 @@
 node_modules/
 .vercel/
 dist/
-.output/
+dist-pages/
 screenshots/
 *.log
 .env

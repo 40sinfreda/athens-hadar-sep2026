@@ -1,6 +1,7 @@
 import { Check, ExternalLink, Navigation } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { formatCost, type EventItem } from "@/data/itinerary";
+import type { EventItem } from "@/data/itinerary";
+import { formatCost } from "@/lib/costs";
 import { KindIcon, kindLabel } from "@/components/kind-icon";
 import { useDone } from "@/store";
 

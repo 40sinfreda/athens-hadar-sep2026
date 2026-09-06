@@ -1,10 +1,11 @@
-import { days, coupleAmount, PAID } from "@/data/itinerary";
+import type { Cost, DayPlan } from "@/data/itinerary";
+import { coupleAmount } from "@/lib/costs";
 
 function round1(n: number) {
   return Math.round(n * 10) / 10;
 }
 
-export function CostPanel() {
+export function CostPanel({ days, paid }: { days: DayPlan[]; paid: Cost[] }) {
   let eurFixed = 0;
   let eurEst = 0;
   let ils = 0;
@@ -20,7 +21,7 @@ export function CostPanel() {
     }
   }
 
-  const hotel = PAID.reduce((s, c) => s + coupleAmount(c), 0);
+  const hotel = paid.reduce((s, c) => s + coupleAmount(c), 0);
 
   return (
     <section className="rounded-[28px] border border-border bg-card p-5 shadow-card sm:p-6">
@@ -43,12 +44,20 @@ export function CostPanel() {
   );
 }
 
-function Stat({ label, value, hint }: { label: string; value: string; hint?: string }) {
+function Stat({
+  label,
+  value,
+  hint,
+}: {
+  label: string;
+  value: string;
+  hint?: string;
+}) {
   return (
     <div className="rounded-[18px] bg-surface px-3 py-3">
       <dt className="text-xs text-muted">{label}</dt>
       <dd className="mt-1 font-display text-xl font-semibold tabular-nums text-fg">{value}</dd>
-      {hint && <p className="mt-0.5 text-xs text-subtle">{hint}</p>}
+      {hint ? <p className="mt-0.5 text-[11px] text-subtle">{hint}</p> : null}
     </div>
   );
 }

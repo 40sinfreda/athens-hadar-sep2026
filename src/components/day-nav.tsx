@@ -1,7 +1,7 @@
-import { days } from "@/data/itinerary";
+import type { DayPlan } from "@/data/itinerary";
 import { cn } from "@/lib/utils";
 
-export function DayNav({ active }: { active: string }) {
+export function DayNav({ active, days }: { active: string; days: DayPlan[] }) {
   return (
     <nav
       aria-label="ימים"

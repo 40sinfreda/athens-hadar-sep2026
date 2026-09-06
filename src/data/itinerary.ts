@@ -70,6 +70,8 @@ export const TRIP = {
   seats: "שרית 27A הלוך · 35B חזור",
 };
 
+export type TripMeta = typeof TRIP;
+
 export const PAID: Cost[] = [
   { amount: 640.18, currency: "EUR", for: "couple", note: "דירה 5 לילות, לא ניתן להחזר" },
 ];

@@ -1,45 +1,45 @@
 import { KeyRound, Phone, Plane } from "lucide-react";
 import { mapsLink, mapsSearch } from "@/lib/maps";
-import { TRIP } from "@/data/itinerary";
+import type { TripMeta } from "@/data/itinerary";
 
-export function TripHero() {
-  const apt = mapsLink("הדירה במפות", TRIP.apartment);
+export function TripHero({ trip }: { trip: TripMeta }) {
+  const apt = mapsLink("הדירה במפות", trip.apartment);
 
   return (
     <header className="border-b border-border bg-primary text-primary-fg">
       <div className="mx-auto max-w-3xl px-4 py-8 sm:py-10">
-        <p className="text-sm font-medium tracking-wide text-primary-fg/75">{TRIP.couple}</p>
+        <p className="text-sm font-medium tracking-wide text-primary-fg/75">{trip.couple}</p>
         <h1 className="mt-1 font-display text-4xl font-semibold leading-tight sm:text-5xl">
-          {TRIP.title}
+          {trip.title}
         </h1>
-        <p className="mt-2 text-lg text-primary-fg/85">{TRIP.datesLabel} · {TRIP.nights} לילות</p>
+        <p className="mt-2 text-lg text-primary-fg/85">{trip.datesLabel} · {trip.nights} לילות</p>
 
         <dl className="mt-6 grid gap-3 sm:grid-cols-2">
-          <Fact icon={Plane} label="טיסות" value={`${TRIP.outbound}\n${TRIP.inbound}`} />
+          <Fact icon={Plane} label="טיסות" value={`${trip.outbound}\n${trip.inbound}`} />
           <Fact
             icon={KeyRound}
             label="דירה"
-            value={`${TRIP.apartmentName}\n${TRIP.apartment}`}
+            value={`${trip.apartmentName}\n${trip.apartment}`}
             href={apt.url}
           />
         </dl>
 
         <ul className="mt-6 space-y-1.5 text-sm leading-relaxed text-primary-fg/85">
-          <li>PNR {TRIP.pnr} · {TRIP.seats} · Economy Lite, בלי כבודה בבטן</li>
+          <li>PNR {trip.pnr} · {trip.seats} · Economy Lite, בלי כבודה בבטן</li>
           <li>צ׳ק־אין אחרי 15:00 · יציאה ב־28.9 בשעה 07:00 לטיסה</li>
           <li>וואטסאפ למארחים סביב 20.9 — בלי הטופס אין קוד לדלת</li>
         </ul>
 
         <div className="mt-5 flex flex-wrap gap-2">
           <a
-            href={`tel:${TRIP.hostPhone.replace(/\s/g, "")}`}
+            href={`tel:${trip.hostPhone.replace(/\s/g, "")}`}
             className="inline-flex h-11 items-center gap-2 rounded-[12px] bg-primary-fg px-3 text-sm font-medium text-primary"
           >
             <Phone className="size-4" />
-            {TRIP.hostPhone}
+            {trip.hostPhone}
           </a>
           <a
-            href={mapsSearch(TRIP.apartment)}
+            href={mapsSearch(trip.apartment)}
             target="_blank"
             rel="noreferrer"
             className="inline-flex h-11 items-center rounded-[12px] border border-primary-fg/25 px-3 text-sm font-medium"
