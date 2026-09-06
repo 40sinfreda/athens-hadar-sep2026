@@ -1,7 +1,15 @@
 import type { DayPlan } from "@/data/itinerary";
 import { cn } from "@/lib/utils";
 
-export function DayNav({ active, days }: { active: string; days: DayPlan[] }) {
+export function DayNav({
+  active,
+  days,
+  onSelect,
+}: {
+  active: string;
+  days: DayPlan[];
+  onSelect: (id: string) => void;
+}) {
   return (
     <nav
       aria-label="ימים"
@@ -12,19 +20,23 @@ export function DayNav({ active, days }: { active: string; days: DayPlan[] }) {
           const [, m, day] = d.date.split("-");
           const isOn = active === d.id;
           return (
-            <a
+            <button
               key={d.id}
-              href={`#${d.id}`}
+              type="button"
+              aria-current={isOn ? "true" : undefined}
+              onClick={() => onSelect(d.id)}
               className={cn(
                 "flex h-12 min-w-14 shrink-0 flex-col items-center justify-center rounded-[12px] px-3 text-center transition-colors duration-150",
-                isOn ? "bg-primary text-primary-fg" : "bg-card text-fg border border-border",
+                isOn
+                  ? "bg-primary text-primary-fg"
+                  : "bg-card text-fg border border-border",
               )}
             >
               <span className="text-[11px] font-medium leading-none">{d.short}</span>
               <span className="mt-1 text-sm font-semibold tabular-nums leading-none">
                 {Number(day)}.{Number(m)}
               </span>
-            </a>
+            </button>
           );
         })}
       </div>

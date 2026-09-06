@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { Cost, DayPlan, TripMeta } from "@/data/itinerary";
 import { TripHero } from "@/components/trip-hero";
 import { DayNav } from "@/components/day-nav";
@@ -19,6 +19,7 @@ export function ItineraryApp({
 }) {
   const [active, setActive] = useState(days[0]?.id ?? "d23");
   const hydrate = useDone((s) => s.hydrate);
+  const lockUntil = useRef(0);
 
   useEffect(() => {
     hydrate();
@@ -31,6 +32,7 @@ export function ItineraryApp({
 
     const obs = new IntersectionObserver(
       (entries) => {
+        if (Date.now() < lockUntil.current) return;
         const vis = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
@@ -43,10 +45,16 @@ export function ItineraryApp({
     return () => obs.disconnect();
   }, [days]);
 
+  function selectDay(id: string) {
+    setActive(id);
+    lockUntil.current = Date.now() + 900;
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
     <main className="min-h-dvh bg-bg text-fg">
       <TripHero trip={trip} />
-      <DayNav active={active} days={days} />
+      <DayNav active={active} days={days} onSelect={selectDay} />
       <div className="mx-auto flex max-w-3xl flex-col gap-12 px-4 py-8 pb-24">
         {header}
         <CostPanel days={days} paid={paid} />
